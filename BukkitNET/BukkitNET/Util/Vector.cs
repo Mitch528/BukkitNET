@@ -304,12 +304,12 @@ namespace BukkitNET.Util
             return x + "," + y + "," + z;
         }
 
-        public Location ToLocation(World world)
+        public Location ToLocation(IWorld world)
         {
             return new Location(world, x, y, z);
         }
 
-        public Location ToLocation(World world, float yaw, float pitch)
+        public Location ToLocation(IWorld world, float yaw, float pitch)
         {
             return new Location(world, x, y, z, yaw, pitch);
         }

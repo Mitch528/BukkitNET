@@ -386,7 +386,7 @@ namespace BukkitNET.Inventory
             }
             else if (args.ContainsKey("meta"))
             { // We cannot and will not have meta when enchantments (pre-ItemMeta) exist
-                Object raw = args["meta"];
+                object raw = args["meta"];
                 if (raw is ItemMeta)
                 {
                     result.ItemMeta = (ItemMeta)raw;

@@ -10,14 +10,14 @@ namespace BukkitNET
     public class Location
     {
 
-        private World world;
+        private IWorld world;
         private double x;
         private double y;
         private double z;
         private float pitch;
         private float yaw;
 
-        public World World
+        public IWorld World
         {
             get
             {
@@ -129,12 +129,12 @@ namespace BukkitNET
             }
         }
 
-        public Location(World world, double x, double y, double z)
+        public Location(IWorld world, double x, double y, double z)
             : this(world, x, y, z, 0, 0)
         {
         }
 
-        public Location(World world, double x, double y, double z, float yaw, float pitch)
+        public Location(IWorld world, double x, double y, double z, float yaw, float pitch)
         {
             this.world = world;
             this.x = x;

@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BukkitNET
+namespace BukkitNET.Entities
 {
-    public class World
+    public interface IWeather : IEntity
     {
-
-
-
     }
 }
