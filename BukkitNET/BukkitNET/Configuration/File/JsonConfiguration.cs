@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
@@ -21,6 +23,32 @@ namespace BukkitNET.Configuration.File
             var o = new JObject(contents);
 
             map = Recurse(o);
+
+        }
+
+        public static JsonConfiguration LoadConfiguration(FileInfo file)
+        {
+
+            Debug.Assert(file != null, "File cannot be null");
+
+            var jc = new JsonConfiguration();
+
+            jc.Load(file);
+
+            return jc;
+
+        }
+
+        public static JsonConfiguration LoadConfiguration(FileStream fs)
+        {
+
+            Debug.Assert(fs != null, "Stream cannot be null");
+
+            var jc = new JsonConfiguration();
+
+            jc.Load(fs);
+
+            return jc;
 
         }
 

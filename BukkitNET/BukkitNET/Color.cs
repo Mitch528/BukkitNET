@@ -122,7 +122,7 @@ namespace BukkitNET
             return FromBGR(bgr >> 16 & BIT_MASK, bgr >> 8 & BIT_MASK, bgr >> 0 & BIT_MASK);
         }
 
-        private Color(int red, int green, int blue)
+        internal Color(int red, int green, int blue)
         {
             Debug.Assert(!(red >= 0 && red <= BIT_MASK), "Red is not between 0-255: " + red);
             Debug.Assert(!(green >= 0 && green <= BIT_MASK), "Green is not between 0-255: " + green);

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BukkitNET.Commands;
 using BukkitNET.Entities;
 using BukkitNET.Events.InventoryEvents;
 using BukkitNET.Inventory;
+using BukkitNET.Plugin;
 using BukkitNET.Plugin.Messaging;
+using BukkitNET.Scheduler;
 
 namespace BukkitNET
 {
@@ -67,9 +70,11 @@ namespace BukkitNET
 
         List<IPlayer> MatchPlayer(string name);
 
-        PluginManager GetPluginManager();
+        IPluginManager GetPluginManager();
 
-        ServicesManager GetServicesManager();
+        IBukkitScheduler GetScheduler();
+
+        IServicesManager GetServicesManager();
 
         List<IWorld> GetWorlds();
 
@@ -95,7 +100,7 @@ namespace BukkitNET
 
         void SavePlayers();
 
-        bool DispatchCommand(CommandSender sender, string commandLine);
+        bool DispatchCommand(ICommandSender sender, string commandLine);
 
         void ConfigureDbConfig(ServerConfig config);
 
@@ -143,21 +148,21 @@ namespace BukkitNET
 
         void SetDefaultGameMode(GameMode mode);
 
-        ConsoleCommandSender GetConsoleSender();
+        IConsoleCommandSender GetConsoleSender();
 
         FileInfo GetWorldContainer();
 
         OfflinePlayer[] GetOfflinePlayers();
 
-        Messenger GetMessenger();
+        IMessenger GetMessenger();
 
         HelpMap GetHelpMap();
 
-        IInventory CreateInventory(InventoryHolder owner, InventoryType type);
+        IInventory CreateInventory(IInventoryHolder owner, InventoryType type);
 
-        IInventory CreateInventory(InventoryHolder owner, int size);
+        IInventory CreateInventory(IInventoryHolder owner, int size);
 
-        IInventory CreateInventory(InventoryHolder owner, int size, string title);
+        IInventory CreateInventory(IInventoryHolder owner, int size, string title);
 
         int GetMonsterSpawnLimit();
 

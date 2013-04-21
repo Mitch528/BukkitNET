@@ -21,7 +21,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        public BukkitTask RunTask(IPlugin plugin)
+        public IBukkitTask RunTask(IPlugin plugin)
         {
             lock (syncLock)
             {
@@ -30,7 +30,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        public BukkitTask RunTaskAsynchronously(IPlugin plugin)
+        public IBukkitTask RunTaskAsynchronously(IPlugin plugin)
         {
             lock (syncLock)
             {
@@ -39,7 +39,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        public BukkitTask RunTaskLater(IPlugin plugin, long delay)
+        public IBukkitTask RunTaskLater(IPlugin plugin, long delay)
         {
             lock (syncLock)
             {
@@ -48,7 +48,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        public BukkitTask RunTaskLaterAsynchronously(IPlugin plugin, long delay)
+        public IBukkitTask RunTaskLaterAsynchronously(IPlugin plugin, long delay)
         {
             lock (syncLock)
             {
@@ -57,7 +57,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        public BukkitTask RunTaskTimer(IPlugin plugin, long delay, long period)
+        public IBukkitTask RunTaskTimer(IPlugin plugin, long delay, long period)
         {
             lock (syncLock)
             {
@@ -66,7 +66,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        public BukkitTask RunTaskTimerAsynchronously(IPlugin plugin, long delay, long period)
+        public IBukkitTask RunTaskTimerAsynchronously(IPlugin plugin, long delay, long period)
         {
             lock (syncLock)
             {
@@ -96,7 +96,7 @@ namespace BukkitNET.Scheduler
             }
         }
 
-        private BukkitTask SetupId(BukkitTask task)
+        private IBukkitTask SetupId(IBukkitTask task)
         {
             this.taskId = task.TaskId;
             return task;

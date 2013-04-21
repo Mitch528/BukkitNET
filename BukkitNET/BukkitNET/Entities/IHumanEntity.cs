@@ -7,10 +7,10 @@ using BukkitNET.Permissions;
 
 namespace BukkitNET.Entities
 {
-    public interface IHumanEntity : ILivingEntity, IAnimalTamer, Permissible, InventoryHolder
+    public interface IHumanEntity : ILivingEntity, IAnimalTamer, IPermissible, IInventoryHolder
     {
 
-        PlayerInventory GetInventory();
+        IPlayerInventory GetInventory();
 
         IInventory GetEnderChest();
 

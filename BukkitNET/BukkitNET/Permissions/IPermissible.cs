@@ -6,14 +6,14 @@ using BukkitNET.Plugin;
 
 namespace BukkitNET.Permissions
 {
-    public interface Permissible : IServerOperator
+    public interface IPermissible : IServerOperator
     {
 
         bool IsPermissionSet(string name);
 
         bool IsPermissionSet(Permission perm);
 
-        bool HasPermissions(string name);
+        bool HasPermission(string name);
 
         bool HasPermission(Permission perm);
 

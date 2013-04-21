@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using BukkitNET.Commands;
+using BukkitNET.Conversations;
 using BukkitNET.Plugin.Messaging;
 
 namespace BukkitNET.Entities
 {
-    public interface IPlayer : IHumanEntity, Conversable, CommandSender, OfflinePlayer, IPluginMessageRecipient
+    public interface IPlayer : IHumanEntity, IConversable, ICommandSender, OfflinePlayer, IPluginMessageRecipient
     {
+
+        string GetName();
 
         string GetDisplayName();
 

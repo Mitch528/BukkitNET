@@ -11,12 +11,41 @@ namespace BukkitNET.Potions
     public enum PotionType
     {
 
-        [PotionTypeInfo(0, 0)]
+        [PotionTypeInfo(0, 0, 0)]
         Water,
 
-        [PotionTypeInfo(1, PotionEffectType.REGENERATION, 2)]
-        Regen
+        [PotionTypeInfo(1, 10, 2)]
+        Regen,
 
+        [PotionTypeInfo(2, 1, 2)]
+        Speed,
+
+        [PotionTypeInfo(3, 12, 1)]
+        FireResistance,
+
+        [PotionTypeInfo(4, 19, 2)]
+        Poison,
+
+        [PotionTypeInfo(5, 6, 2)]
+        InstantHeal,
+
+        [PotionTypeInfo(6, 16, 1)]
+        NightVision,
+
+        [PotionTypeInfo(8, 18, 1)]
+        Weakness,
+
+        [PotionTypeInfo(9, 5, 2)]
+        Strength,
+
+        [PotionTypeInfo(10, 2, 1)]
+        Slowness,
+
+        [PotionTypeInfo(12, 7, 2)]
+        InstantDamage,
+
+        [PotionTypeInfo(14, 14, 1)]
+        Invisibility
 
 
     }
@@ -56,7 +85,7 @@ namespace BukkitNET.Potions
 
                 var attrib = t.GetAttribute<PotionTypeInfoAttribute>();
 
-                if (attrib.Effect == effect)
+                if (PotionEffectType.GetById(attrib.Effect).Equals(effect))
                     return t;
 
             }
@@ -70,13 +99,33 @@ namespace BukkitNET.Potions
     public static class PotionTypeExtensions
     {
 
+        public static int GetDamageValue(this PotionType type)
+        {
+
+            var attrib = type.GetAttribute<PotionTypeInfoAttribute>();
+
+            return attrib.DamageValue;
+
+        }
+
+        public static int GetMaxLevel(this PotionType type)
+        {
+
+            var attrib = type.GetAttribute<PotionTypeInfoAttribute>();
+
+            return attrib.MaxLevel;
+
+        }
+
         public static bool IsInstant(this PotionType type)
         {
 
             var attrib = type.GetAttribute<PotionTypeInfoAttribute>();
             var effect = attrib.Effect;
 
-            return effect == null ? true : effect.IsInstant;
+            var et = PotionEffectType.GetById(effect);
+
+            return et == null || et.IsInstant();
 
         }
 

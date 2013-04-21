@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BukkitNET.Events.EntityEvents;
+using BukkitNET.Events.PlayerEvents;
 using BukkitNET.Metadata;
 using BukkitNET.Util;
 
@@ -24,11 +26,11 @@ namespace BukkitNET.Entities
 
         bool Teleport(Location location);
 
-        bool Teleport(Location location, TeleportCause cause);
+        bool Teleport(Location location, PlayerTeleportEvent.TeleportCause cause);
 
         bool Teleport(IEntity destination);
 
-        bool Teleport(IEntity destination, TeleportCause cause);
+        bool Teleport(IEntity destination, PlayerTeleportEvent.TeleportCause cause);
 
         List<IEntity> GetNearbyEntities(double x, double y, double z);
 

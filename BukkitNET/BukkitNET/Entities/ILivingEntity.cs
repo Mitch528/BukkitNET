@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using BukkitNET.Potions;
 
 namespace BukkitNET.Entities
 {
@@ -43,7 +44,7 @@ namespace BukkitNET.Entities
 
         void SetNoDamageTicks(int ticks);
 
-        Player GetKiller();
+        IPlayer GetKiller();
 
         bool AddPotionEffect(PotionEffect effect);
 

@@ -7,7 +7,7 @@ using BukkitNET.Plugin;
 
 namespace BukkitNET.Scheduler
 {
-    public interface BukkitScheduler
+    public interface IBukkitScheduler
     {
 
         int ScheduleSyncDelayedTask(IPlugin plugin, Action task, long delay);
@@ -28,21 +28,21 @@ namespace BukkitNET.Scheduler
 
         bool IsQueued(int taskId);
 
-        List<BukkitWorker> GetActiveWorkers();
+        List<IBukkitWorker> GetActiveWorkers();
 
-        List<BukkitTask> GetPendingTasks();
+        List<IBukkitTask> GetPendingTasks();
 
-        BukkitTask RunTask(IPlugin plugin, Action task);
+        IBukkitTask RunTask(IPlugin plugin, Action task);
 
-        BukkitTask RunTaskAsynchronously(IPlugin plugin, Action task);
+        IBukkitTask RunTaskAsynchronously(IPlugin plugin, Action task);
 
-        BukkitTask RunTaskLater(IPlugin plugin, Action task, long delay);
+        IBukkitTask RunTaskLater(IPlugin plugin, Action task, long delay);
 
-        BukkitTask RunTaskLaterAsynchronously(IPlugin plugin, Action task, long delay);
+        IBukkitTask RunTaskLaterAsynchronously(IPlugin plugin, Action task, long delay);
 
-        BukkitTask RunTaskTimer(IPlugin plugin, Action task, long delay, long period);
+        IBukkitTask RunTaskTimer(IPlugin plugin, Action task, long delay, long period);
 
-        BukkitTask RunTaskTimerAsynchronously(IPlugin plugin, Action task, long delay, long period);
+        IBukkitTask RunTaskTimerAsynchronously(IPlugin plugin, Action task, long delay, long period);
 
     }
 }

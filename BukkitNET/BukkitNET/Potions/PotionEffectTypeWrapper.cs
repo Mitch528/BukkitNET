@@ -20,12 +20,12 @@ namespace BukkitNET.Potions
 
         public override string GetName()
         {
-            throw new NotImplementedException();
+            return GetEffectType().GetName();
         }
 
         public override bool IsInstant()
         {
-            throw new NotImplementedException();
+            return GetEffectType().IsInstant();
         }
 
         public PotionEffectType GetEffectType()

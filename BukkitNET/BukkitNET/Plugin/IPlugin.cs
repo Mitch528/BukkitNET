@@ -4,21 +4,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BukkitNET.Configuration.File;
+using BukkitNET.Generator;
 
 namespace BukkitNET.Plugin
 {
     public interface IPlugin
     {
 
-        DirectoryInfo getDataFolder();
+        DirectoryInfo GetDataFolder();
 
         PluginInfo PluginDescription();
 
-        FileConfiguration getConfig();
+        FileConfiguration GetConfig();
 
-        //public InputSt
+        FileStream GetResource(string filename);
 
+        IPluginLoader GetPluginLoader();
 
+        ChunkGenerator GetDefaultWorldGenerator(string worldName, string id);
+
+        Server GetServer();
 
         void OnEnable();
 
@@ -27,6 +32,24 @@ namespace BukkitNET.Plugin
         void SaveConfig();
 
         void SaveDefaultConfig();
+
+        void SaveResource(string resourcePath, bool replace);
+
+        void ReloadConfig();
+
+        bool IsEnabled();
+
+        void OnLoad();
+
+        bool IsNaggable();
+
+        void SetNaggable(bool canNag);
+
+        //database here
+
+        Logger GetLogger();
+
+        string GetName();
 
     }
 }

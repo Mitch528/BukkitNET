@@ -16,25 +16,25 @@ namespace BukkitNET.Inventory
         public enum Property
         {
 
-            [InventoryPropertyInfoAttribute(0, InventoryType.Brewing)]
+            [InventoryPropertyInfo(0, InventoryType.Brewing)]
             BrewTime,
 
-            [InventoryPropertyInfoAttribute(0, InventoryType.Furnace)]
+            [InventoryPropertyInfo(0, InventoryType.Furnace)]
             CookTime,
 
-            [InventoryPropertyInfoAttribute(1, InventoryType.Furnace)]
+            [InventoryPropertyInfo(1, InventoryType.Furnace)]
             BurnTime,
 
-            [InventoryPropertyInfoAttribute(2, InventoryType.Furnace)]
+            [InventoryPropertyInfo(2, InventoryType.Furnace)]
             TicksForCurrentFuel,
 
-            [InventoryPropertyInfoAttribute(0, InventoryType.ENCHANTING)]
+            [InventoryPropertyInfo(0, InventoryType.Enchanting)]
             EnchantButton1,
 
-            [InventoryPropertyInfoAttribute(1, InventoryType.ENCHANTING)]
+            [InventoryPropertyInfo(1, InventoryType.Enchanting)]
             EnchantButton2,
 
-            [InventoryPropertyInfoAttribute(2, InventoryType.ENCHANTING)]
+            [InventoryPropertyInfo(2, InventoryType.Enchanting)]
             EnchantButton3
 
         }

@@ -11,7 +11,7 @@ namespace BukkitNET.Attributes
     {
 
         private int damageValue, maxLevel;
-        private PotionEffectType effect;
+        private int effect;
 
         public int DamageValue
         {
@@ -29,7 +29,7 @@ namespace BukkitNET.Attributes
             }
         }
 
-        public PotionEffectType Effect
+        public int Effect
         {
             get
             {
@@ -37,11 +37,11 @@ namespace BukkitNET.Attributes
             }
         }
 
-        public PotionTypeInfoAttribute(int damageValue, int maxLevel) : this(damageValue, null, maxLevel)
+        public PotionTypeInfoAttribute(int damageValue, int maxLevel) : this(damageValue, 0, maxLevel)
         {
         }
 
-        public PotionTypeInfoAttribute(int damageValue, PotionEffectType effect, int maxLevel)
+        public PotionTypeInfoAttribute(int damageValue, int effect, int maxLevel)
         {
             this.damageValue = damageValue;
             this.effect = effect;

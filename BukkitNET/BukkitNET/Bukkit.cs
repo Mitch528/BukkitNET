@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using BukkitNET.Commands;
 using BukkitNET.Entities;
+using BukkitNET.Events.InventoryEvents;
 using BukkitNET.Inventory;
+using BukkitNET.Plugin;
+using BukkitNET.Plugin.Messaging;
 using BukkitNET.Scheduler;
 
 namespace BukkitNET
 {
     public sealed class Bukkit
     {
+
+        public const string BROADCAST_CHANNEL_ADMINISTRATIVE = "bukkit.broadcast.admin";
+        public const string BROADCAST_CHANNEL_USERS = "bukkit.broadcast.user";
 
         private static Server server;
 
@@ -152,7 +159,7 @@ namespace BukkitNET
             }
         }
 
-        public static PluginManager PluginManager
+        public static IPluginManager PluginManager
         {
             get
             {
@@ -160,7 +167,7 @@ namespace BukkitNET
             }
         }
 
-        public static BukkitScheduler Scheduler
+        public static IBukkitScheduler Scheduler
         {
             get
             {
@@ -168,7 +175,7 @@ namespace BukkitNET
             }
         }
 
-        public static ServicesManager ServicesManager
+        public static IServicesManager ServicesManager
         {
             get
             {
@@ -180,7 +187,7 @@ namespace BukkitNET
         {
             get
             {
-                return server.Worlds();
+                return server.GetWorlds();
             }
         }
 
@@ -268,7 +275,7 @@ namespace BukkitNET
             }
         }
 
-        public static ConsoleCommandSender ConsoleSender
+        public static IConsoleCommandSender ConsoleSender
         {
             get
             {
@@ -292,7 +299,7 @@ namespace BukkitNET
             }
         }
 
-        public static Messenger Messenger
+        public static IMessenger Messenger
         {
             get
             {
@@ -459,12 +466,12 @@ namespace BukkitNET
             return server.BroadcastMessage(message);
         }
 
-        public static Player GetPlayer(string name)
+        public static IPlayer GetPlayer(string name)
         {
             return server.GetPlayer(name);
         }
 
-        public static List<Player> MatchPlayer(string name)
+        public static List<IPlayer> MatchPlayer(string name)
         {
             return server.MatchPlayer(name);
         }
@@ -569,7 +576,7 @@ namespace BukkitNET
             return server.GetOfflinePlayer(name);
         }
 
-        public static Player GetPlayerExact(string name)
+        public static IPlayer GetPlayerExact(string name)
         {
             return server.GetPlayerExact(name);
         }
@@ -589,17 +596,17 @@ namespace BukkitNET
             server.ReloadWhitelist();
         }
 
-        public static IInventory CreateInventory(InventoryHolder owner, InventoryType type)
+        public static IInventory CreateInventory(IInventoryHolder owner, InventoryType type)
         {
             server.CreateInventory(owner, type);
         }
 
-        public static IInventory CreateInventory(InventoryHolder owner, int size)
+        public static IInventory CreateInventory(IInventoryHolder owner, int size)
         {
             server.CreateInventory(owner, size);
         }
 
-        public static IInventory CreateInventory(InventoryHolder owner, int size, string title)
+        public static IInventory CreateInventory(IInventoryHolder owner, int size, string title)
         {
             return server.CreateInventory(owner, size, title);
         }

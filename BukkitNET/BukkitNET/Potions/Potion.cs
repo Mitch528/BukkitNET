@@ -26,7 +26,7 @@ namespace BukkitNET.Potions
             }
             set
             {
-                int max = type.MaxLevel;
+                int max = type.GetMaxLevel();
                 Debug.Assert(level > 0 && level <= max, "Level must be " + (max == 1 ? "" : "between 1 and ") + max + " for this potion");
                 level = value;
             }
@@ -82,11 +82,11 @@ namespace BukkitNET.Potions
         public Potion(PotionType type)
         {
             this.type = type;
-            if (type != null)
+            if (type != default(PotionType))
             {
-                this.name = type.DamageValue;
+                this.name = type.GetDamageValue();
             }
-            if (type == null || type == PotionType.Water)
+            if (type == default(PotionType) || type == PotionType.Water)
             {
                 this.level = 0;
             }
@@ -95,19 +95,19 @@ namespace BukkitNET.Potions
         public Potion(PotionType type, int level)
             : this(type)
         {
-            Debug.Assert(type != null, "Type cannot be null");
-            Debug.Assert(type != PotionType.WATER, "Water bottles don't have a level!");
+            Debug.Assert(type != default(PotionType), "Type cannot be null");
+            Debug.Assert(type != PotionType.Water, "Water bottles don't have a level!");
             Debug.Assert(level > 0 && level < 3, "Level must be 1 or 2");
             this.level = level;
         }
 
         public Potion(int name)
-            : this(PotionType.GetByDamageValue(name & POTION_BIT))
+            : this(PotionTypeHelper.GetByDamageValue(name & POTION_BIT))
         {
             this.name = name & NAME_BIT;
             if ((name & POTION_BIT) == 0)
             {
-                this.type = null;
+                this.type = default(PotionType);
             }
         }
 
@@ -127,8 +127,8 @@ namespace BukkitNET.Potions
         public void Apply(ItemStack to)
         {
             Debug.Assert(to != null, "itemstack cannot be null");
-            Debug.Assert(to.getType() == Material.Potion, "given itemstack is not a potion");
-            to.SetDurability(ToDamageValue());
+            Debug.Assert(to.GetMaterialType() == Material.Potion, "given itemstack is not a potion");
+            to.Durability = ToDamageValue();
         }
 
         public void Apply(ILivingEntity to)
@@ -213,7 +213,7 @@ namespace BukkitNET.Potions
 
         public static Potion FromDamage(int damage)
         {
-            PotionType type = PotionType.GetByDamageValue(damage & POTION_BIT);
+            PotionType type = PotionTypeHelper.GetByDamageValue(damage & POTION_BIT);
             Potion potion;
             if (type == null || (type == PotionType.Water && damage != 0))
             {

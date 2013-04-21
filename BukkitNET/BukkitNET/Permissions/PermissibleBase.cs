@@ -7,11 +7,11 @@ using BukkitNET.Plugin;
 
 namespace BukkitNET.Permissions
 {
-    public class PermissibleBase : Permissible
+    public class PermissibleBase : IPermissible
     {
 
         private IServerOperator opable = null;
-        private Permissible parent = this;
+        private IPermissible parent = this;
         private List<PermissionAttachment> attachments = new LinkedList<PermissionAttachment>();
         private Dictionary<string, PermissionAttachmentInfo> permissions = new Dictionary<string, PermissionAttachmentInfo>();
 
@@ -19,9 +19,9 @@ namespace BukkitNET.Permissions
         {
             this.opable = opable;
 
-            if (opable is Permissible)
+            if (opable is IPermissible)
             {
-                this.parent = (Permissible)opable;
+                this.parent = (IPermissible)opable;
             }
 
             RecalculatePermissions();
