@@ -30,38 +30,38 @@ namespace BukkitNET.Commands
         static SimpleCommandMap()
         {
 
-            fallbackCommands.add(new ListCommand());
-            fallbackCommands.add(new OpCommand());
-            fallbackCommands.add(new DeopCommand());
-            fallbackCommands.add(new BanIpCommand());
-            fallbackCommands.add(new PardonIpCommand());
-            fallbackCommands.add(new BanCommand());
-            fallbackCommands.add(new PardonCommand());
-            fallbackCommands.add(new KickCommand());
-            fallbackCommands.add(new TeleportCommand());
-            fallbackCommands.add(new GiveCommand());
-            fallbackCommands.add(new TimeCommand());
-            fallbackCommands.add(new SayCommand());
-            fallbackCommands.add(new WhitelistCommand());
-            fallbackCommands.add(new TellCommand());
-            fallbackCommands.add(new MeCommand());
-            fallbackCommands.add(new KillCommand());
-            fallbackCommands.add(new GameModeCommand());
-            fallbackCommands.add(new HelpCommand());
-            fallbackCommands.add(new ExpCommand());
-            fallbackCommands.add(new ToggleDownfallCommand());
-            fallbackCommands.add(new BanListCommand());
-            fallbackCommands.add(new DefaultGameModeCommand());
-            fallbackCommands.add(new SeedCommand());
-            fallbackCommands.add(new DifficultyCommand());
-            fallbackCommands.add(new WeatherCommand());
-            fallbackCommands.add(new SpawnpointCommand());
-            fallbackCommands.add(new ClearCommand());
-            fallbackCommands.add(new GameRuleCommand());
-            fallbackCommands.add(new EnchantCommand());
-            fallbackCommands.add(new TestForCommand());
-            fallbackCommands.add(new EffectCommand());
-            fallbackCommands.add(new ScoreboardCommand());
+            fallbackCommands.Add(new ListCommand());
+            fallbackCommands.Add(new OpCommand());
+            fallbackCommands.Add(new DeopCommand());
+            fallbackCommands.Add(new BanIpCommand());
+            fallbackCommands.Add(new PardonIpCommand());
+            fallbackCommands.Add(new BanCommand());
+            fallbackCommands.Add(new PardonCommand());
+            fallbackCommands.Add(new KickCommand());
+            fallbackCommands.Add(new TeleportCommand());
+            fallbackCommands.Add(new GiveCommand());
+            fallbackCommands.Add(new TimeCommand());
+            fallbackCommands.Add(new SayCommand());
+            fallbackCommands.Add(new WhitelistCommand());
+            fallbackCommands.Add(new TellCommand());
+            fallbackCommands.Add(new MeCommand());
+            fallbackCommands.Add(new KillCommand());
+            fallbackCommands.Add(new GameModeCommand());
+            fallbackCommands.Add(new HelpCommand());
+            fallbackCommands.Add(new ExpCommand());
+            fallbackCommands.Add(new ToggleDownfallCommand());
+            fallbackCommands.Add(new BanListCommand());
+            fallbackCommands.Add(new DefaultGameModeCommand());
+            fallbackCommands.Add(new SeedCommand());
+            fallbackCommands.Add(new DifficultyCommand());
+            fallbackCommands.Add(new WeatherCommand());
+            fallbackCommands.Add(new SpawnpointCommand());
+            fallbackCommands.Add(new ClearCommand());
+            fallbackCommands.Add(new GameRuleCommand());
+            fallbackCommands.Add(new EnchantCommand());
+            fallbackCommands.Add(new TestForCommand());
+            fallbackCommands.Add(new EffectCommand());
+            fallbackCommands.Add(new ScoreboardCommand());
 
         }
 
@@ -158,7 +158,7 @@ namespace BukkitNET.Commands
 
 
 
-        public bool Dispatch(CommandSender sender, string cmdLine)
+        public bool Dispatch(ICommandSender sender, string cmdLine)
         {
 
             string[] args = PATTERN_ON_SPACE.Split(cmdLine);
@@ -211,7 +211,7 @@ namespace BukkitNET.Commands
             return target;
         }
 
-        public List<string> TabComplete(CommandSender sender, string cmdLine)
+        public List<string> TabComplete(ICommandSender sender, string cmdLine)
         {
 
             Debug.Assert(sender != null, "Sender cannot be null");

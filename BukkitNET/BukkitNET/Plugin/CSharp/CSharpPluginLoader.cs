@@ -61,7 +61,6 @@ namespace BukkitNET.Plugin.CSharp
                     {
                         if (File.Exists(strTempAssmbPath))
                         {
-
                             assm = Assembly.LoadFrom(strTempAssmbPath);
                         }
                     }
@@ -88,17 +87,7 @@ namespace BukkitNET.Plugin.CSharp
                 throw new FileNotFoundException(file.FullName + " does not exist");
             }
 
-            FileInfo dataFolder = new FileInfo(Directory.GetParent(file.FullName), description.Name);
-
-            if (dataFolder.Exists && !Directory.Exists(dataFolder.FullName))
-            {
-                throw new Exception(String.Format(
-                    "Projected datafolder: '{0}' for {1} ({2}) exists and is not a directory",
-                    dataFolder,
-                    description.Name,
-                    file
-                ));
-            }
+            DirectoryInfo dataFolder = Directory.GetParent(file.FullName);
 
             var assm = _proxy.LoadAssembly(file.FullName);
 

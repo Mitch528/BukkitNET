@@ -10,15 +10,16 @@ namespace BukkitNET.Conversations
     public class Conversation
     {
 
-        private Prompt firstPrompt;
+        private IPrompt firstPrompt;
         private bool abandoned;
-        protected Prompt currentPrompt;
+        protected IPrompt currentPrompt;
         protected ConversationContext context;
         protected bool modal;
         protected bool localEchoEnabled;
-        protected ConversationPrefix prefix;
-        protected List<ConversationCanceller> cancellers;
-        protected List<ConversationAbandonedListener> abandonedListeners;
+        protected IConversationPrefix prefix;
+        protected List<IConversationCanceller> cancellers;
+
+        public event ConversationAbandonedHandler ConversationAbandoned;
 
         public bool IsModal
         {
@@ -44,7 +45,7 @@ namespace BukkitNET.Conversations
             }
         }
 
-        public ConversationPrefix Prefix
+        public IConversationPrefix Prefix
         {
             get
             {
@@ -83,30 +84,29 @@ namespace BukkitNET.Conversations
             }
         }
 
-        public Conversation(IPlugin plugin, IConversable forWhom, Prompt firstPrompt)
+        public Conversation(IPlugin plugin, IConversable forWhom, IPrompt firstPrompt)
             : this(plugin, forWhom, firstPrompt, new Dictionary<object, object>())
         {
         }
 
-        public Conversation(IPlugin plugin, IConversable forWhom, Prompt firstPrompt, Dictionary<Object, Object> initialSessionData)
+        public Conversation(IPlugin plugin, IConversable forWhom, IPrompt firstPrompt, Dictionary<Object, Object> initialSessionData)
         {
             this.firstPrompt = firstPrompt;
             this.context = new ConversationContext(plugin, forWhom, initialSessionData);
             this.modal = true;
             this.localEchoEnabled = true;
             this.prefix = new NullConversationPrefix();
-            this.cancellers = new List<ConversationCanceller>();
-            this.abandonedListeners = new ArrayList<ConversationAbandonedListener>();
+            this.cancellers = new List<IConversationCanceller>();
         }
 
         public IConversable GetForWhom()
         {
-            return context.GetForWhom();
+            return context.ForWhom;
         }
 
-        public void AddConversationCanceller(ConversationCanceller canceller)
+        public void AddConversationCanceller(IConversationCanceller canceller)
         {
-            canceller.setConversation(this);
+            canceller.SetConversation(this);
             this.cancellers.Add(canceller);
         }
 
@@ -117,7 +117,7 @@ namespace BukkitNET.Conversations
             {
                 abandoned = false;
                 currentPrompt = firstPrompt;
-                context.GetForWhom().beginConversation(this);
+                context.ForWhom.BeginConversation(this);
             }
 
         }
@@ -130,14 +130,14 @@ namespace BukkitNET.Conversations
 
                 if (localEchoEnabled)
                 {
-                    context.GetForWhom().SendRawMessage(prefix.GetPrefix(context) + input);
+                    context.ForWhom.SendRawMessage(prefix.GetPrefix(context) + input);
                 }
 
-                foreach (ConversationCanceller canceller in cancellers)
+                foreach (IConversationCanceller canceller in cancellers)
                 {
-                    if (canceller.cancelBasedOnInput(context, input))
+                    if (canceller.CancelBasedOnInput(context, input))
                     {
-                        Abandon(new ConversationAbandonedEvent(this, canceller));
+                        Abandon(new ConversationAbandonedEventArgs(this, canceller));
                         return;
                     }
                 }
@@ -148,35 +148,19 @@ namespace BukkitNET.Conversations
 
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddConversationAbandonedListener(ConversationAbandonedListener listener)
-        {
-            abandonedListeners.Add(listener);
-        }
-
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveConversationAbandonedListener(ConversationAbandonedListener listener)
-        {
-            abandonedListeners.Remove(listener);
-        }
-
         public void Abandon()
         {
-            Abandon(new ConversationAbandonedEvent(this, new ManuallyAbandonedConversationCanceller()));
+            Abandon(new ConversationAbandonedEventArgs(this, new ManuallyAbandonedConversationCanceller()));
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Abandon(ConversationAbandonedEvent details)
+        public void Abandon(ConversationAbandonedEventArgs details)
         {
             if (!abandoned)
             {
                 abandoned = true;
                 currentPrompt = null;
-                context.GetForWhom().abandonConversation(this);
-                foreach (ConversationAbandonedListener listener in abandonedListeners)
-                {
-                    listener.ConversationAbandoned(details);
-                }
+                context.ForWhom.AbandonConversation(this);
             }
         }
 
@@ -184,11 +168,11 @@ namespace BukkitNET.Conversations
         {
             if (currentPrompt == null)
             {
-                Abandon(new ConversationAbandonedEvent(this));
+                Abandon(new ConversationAbandonedEventArgs(this));
             }
             else
             {
-                context.GetForWhom().sendRawMessage(prefix.GetPrefix(context) + currentPrompt.GetPromptText(context));
+                context.ForWhom.SendRawMessage(prefix.GetPrefix(context) + currentPrompt.GetPromptText(context));
                 if (!currentPrompt.BlocksForInput(context))
                 {
                     currentPrompt = currentPrompt.AcceptInput(context, null);

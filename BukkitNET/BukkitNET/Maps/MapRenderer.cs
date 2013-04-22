@@ -32,7 +32,7 @@ namespace BukkitNET.Maps
         {
         }
 
-        abstract public void Render(IMapView map, MapCanvas canvas, IPlayer player);
+        abstract public void Render(IMapView map, IMapCanvas canvas, IPlayer player);
 
     }
 }

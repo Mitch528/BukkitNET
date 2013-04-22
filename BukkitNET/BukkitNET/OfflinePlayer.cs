@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BukkitNET.Configuration.Serialization;
+using BukkitNET.Entities;
+using BukkitNET.Permissions;
 
 namespace BukkitNET
 {
-    public interface OfflinePlayer : ServerOperator, AnimalTamer, IConfigurationSerializable 
+    public interface OfflinePlayer : IServerOperator, IAnimalTamer, IConfigurationSerializable 
     {
 
         bool IsOnline();
@@ -19,7 +21,7 @@ namespace BukkitNET
 
         bool IsWhitelisted(bool value);
 
-        Player GetPlayer();
+        IPlayer GetPlayer();
 
         long GetFirstPlayed();
 

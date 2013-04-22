@@ -12,6 +12,7 @@ using BukkitNET.Maps;
 using BukkitNET.Plugin;
 using BukkitNET.Plugin.Messaging;
 using BukkitNET.Scheduler;
+using BukkitNET.Scoreboard;
 
 namespace BukkitNET
 {
@@ -453,7 +454,7 @@ namespace BukkitNET
             }
         }
 
-        public static ScoreboardManager ScoreboardManager
+        public static IScoreboardManager ScoreboardManager
         {
             get
             {

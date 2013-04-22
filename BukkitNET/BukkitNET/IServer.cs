@@ -12,6 +12,7 @@ using BukkitNET.Maps;
 using BukkitNET.Plugin;
 using BukkitNET.Plugin.Messaging;
 using BukkitNET.Scheduler;
+using BukkitNET.Scoreboard;
 
 namespace BukkitNET
 {
@@ -184,7 +185,7 @@ namespace BukkitNET
 
         IItemFactory GetItemFactory();
 
-        ScoreboardManager GetScoreboardManager();
+        IScoreboardManager GetScoreboardManager();
 
     }
 }

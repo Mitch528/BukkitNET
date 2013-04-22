@@ -7,6 +7,7 @@ namespace BukkitNET
 {
     public enum Rotation
     {
+
         None,
 
         Clockwise,

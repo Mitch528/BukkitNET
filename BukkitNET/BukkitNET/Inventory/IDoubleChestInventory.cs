@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BukkitNET.Block;
 
 namespace BukkitNET.Inventory
 {
-    public interface IDoubleChestInventory
+    public interface IDoubleChestInventory : IInventory
     {
 
         IInventory GetLeftSide();
 
         IInventory GetRightSide();
 
-        DoubleChest GetHolder();
+        new DoubleChest GetHolder();
 
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using BukkitNET.Block;
+using BukkitNET.Inventory;
 using BukkitNET.Potions;
 
 namespace BukkitNET.Entities
@@ -65,7 +66,7 @@ namespace BukkitNET.Entities
 
         void SetRemoveWhenFarAway(bool remove);
 
-        EntityEquipment GetEquipment();
+        IEntityEquipment GetEquipment();
 
         void SetCanPickupItems(bool pickup);
 

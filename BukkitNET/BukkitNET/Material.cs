@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using BukkitNET.Attributes;
+using BukkitNET.Block;
 using BukkitNET.Extensions;
 using BukkitNET.Materials;
 
@@ -130,6 +131,125 @@ namespace BukkitNET
 
         [MaterialInfo(38)]
         RedRose,
+
+        [MaterialInfo(39)]
+        BrownMushroom,
+
+        [MaterialInfo(40)]
+        RedMushroom,
+
+        [MaterialInfo(41)]
+        GoldBlock,
+
+        [MaterialInfo(42)]
+        IronBlock,
+
+        [MaterialInfo(43, typeof(IStep))]
+        DoubleStep,
+
+        [MaterialInfo(44, typeof(IStep))]
+        Step,
+
+        [MaterialInfo(45)]
+        Brick,
+
+        [MaterialInfo(46)]
+        Tnt,
+
+        [MaterialInfo(47)]
+        BookShelf,
+
+        [MaterialInfo(48)]
+        MossyCobblestone,
+        
+        [MaterialInfo(49)]
+        Obsidian,
+
+        [MaterialInfo(50, typeof(ITorch))]
+        Torch,
+
+        [MaterialInfo(51)]
+        Fire,
+
+        [MaterialInfo(52)]
+        MobSpawner,
+
+        [MaterialInfo(53, typeof(Stairs))]
+        WoodStairs,
+
+        [MaterialInfo(54, typeof(Chest))]
+        Chest,
+
+        [MaterialInfo(55, typeof(RedstoneWire))]
+        RedstoneWire,
+
+        [MaterialInfo(56)]
+        DiamondOre,
+
+        [MaterialInfo(57)]
+        DiamondBlock,
+
+        [MaterialInfo(58)]
+        Workbench,
+
+        [MaterialInfo(59, typeof(Crop))]
+        Crops,
+        
+        [MaterialInfo(60, typeof(MaterialData))]
+        Soil,
+
+        [MaterialInfo(61, typeof(IFurnace))]
+        Furnace,
+
+        [MaterialInfo(62, typeof(IFurnace))]
+        BurningFurnace,
+
+        [MaterialInfo(63, typeof(Sign))]
+        SignPost,
+
+        [MaterialInfo(64, typeof(Door))]
+        WoodenDoor,
+
+        [MaterialInfo(65, typeof(Ladder))]
+        Ladder,
+
+        [MaterialInfo(66, typeof(Rails))]
+        Rails,
+
+        [MaterialInfo(67, typeof(Stairs))]
+        CobblestoneStairs,
+
+        [MaterialInfo(68, 64, typeof(Sign))]
+        WallSign,
+
+        [MaterialInfo(69, typeof(Lever))]
+        Lever,
+
+        [MaterialInfo(70, typeof(PressurePlate))]
+        StonePlate,
+
+        [MaterialInfo(71, typeof(Door))]
+        IronDoorBlock,
+
+        [MaterialInfo(72, typeof(PressurePlate))]
+        WoodPlate,
+
+        [MaterialInfo(73)]
+        RedstoneOre,
+
+        [MaterialInfo(74)]
+        GlowingRedstoneOre,
+
+        [MaterialInfo(75, typeof(RedstoneTorch))]
+        RedstoneTorchOff,
+
+        [MaterialInfo(76, typeof(RedstoneTorch))]
+        RedstoneTorchOn,
+
+        [MaterialInfo(77, typeof(Button))]
+        StoneButton,
+
+
 
     }
 

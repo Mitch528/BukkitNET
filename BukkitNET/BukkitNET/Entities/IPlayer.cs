@@ -5,14 +5,16 @@ using System.Net;
 using System.Text;
 using BukkitNET.Commands;
 using BukkitNET.Conversations;
+using BukkitNET.Maps;
 using BukkitNET.Plugin.Messaging;
+using BukkitNET.Scoreboard;
 
 namespace BukkitNET.Entities
 {
     public interface IPlayer : IHumanEntity, IConversable, ICommandSender, OfflinePlayer, IPluginMessageRecipient
     {
 
-        string GetName();
+        new string GetName();
 
         string GetDisplayName();
 
@@ -68,7 +70,7 @@ namespace BukkitNET.Entities
 
         void SendBlockChange(Location loc, int material, byte data);
 
-        void SendMap(MapView map);
+        void SendMap(IMapView map);
 
         void AwardAchievement(Achievement achievement);
 
@@ -152,9 +154,9 @@ namespace BukkitNET.Entities
 
         void SetTexturePack(string url);
 
-        Scoreboard GetScoreboard();
+        IScoreboard GetScoreboard();
 
-        void SetScoreboard(Scoreboard scoreboard);
+        void SetScoreboard(IScoreboard scoreboard);
 
     }
 }

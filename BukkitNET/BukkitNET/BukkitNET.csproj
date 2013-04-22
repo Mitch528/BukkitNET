@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\BlockFaceInfoAttribute.cs" />
+    <Compile Include="Attributes\ChatColorInfoAttribute.cs" />
     <Compile Include="Attributes\DyeColorInfoAttribute.cs" />
     <Compile Include="Attributes\EffectInfoAttribute.cs" />
     <Compile Include="Attributes\EntityEffectInfoAttribute.cs" />
@@ -57,10 +58,27 @@
     <Compile Include="Attributes\PermissionDefaultInfoAttribute.cs" />
     <Compile Include="Attributes\PistonMoveReactionInfoAttribute.cs" />
     <Compile Include="Attributes\PotionTypeInfoAttribute.cs" />
+    <Compile Include="Attributes\ToneInfoAttribute.cs" />
+    <Compile Include="Attributes\WorldTypeInfoAttribute.cs" />
     <Compile Include="Block\Biome.cs" />
     <Compile Include="Block\BlockFace.cs" />
+    <Compile Include="Block\DoubleChest.cs" />
+    <Compile Include="Block\IBeacon.cs" />
     <Compile Include="Block\IBlock.cs" />
     <Compile Include="Block\IBlockState.cs" />
+    <Compile Include="Block\IBrewingStand.cs" />
+    <Compile Include="Block\IChest.cs" />
+    <Compile Include="Block\ICommandBlock.cs" />
+    <Compile Include="Block\IContainerBlock.cs" />
+    <Compile Include="Block\ICreatureSpawner.cs" />
+    <Compile Include="Block\IDispenser.cs" />
+    <Compile Include="Block\IDropper.cs" />
+    <Compile Include="Block\IFurnace.cs" />
+    <Compile Include="Block\IHopper.cs" />
+    <Compile Include="Block\IJukebox.cs" />
+    <Compile Include="Block\INoteBlock.cs" />
+    <Compile Include="Block\ISign.cs" />
+    <Compile Include="Block\ISkull.cs" />
     <Compile Include="Block\PistonMoveReaction.cs" />
     <Compile Include="Bukkit.cs" />
     <Compile Include="ChatColor.cs" />
@@ -89,10 +107,27 @@
     <Compile Include="Configuration\MemorySection.cs" />
     <Compile Include="Configuration\Serialization\ConfigurationSerialization.cs" />
     <Compile Include="Configuration\Serialization\IConfigurationSerializable.cs" />
+    <Compile Include="Conversations\BooleanPrompt.cs" />
     <Compile Include="Conversations\Conversation.cs" />
+    <Compile Include="Conversations\ConversationAbandonedEvent.cs" />
     <Compile Include="Conversations\ConversationContext.cs" />
+    <Compile Include="Conversations\ConversationFactory.cs" />
+    <Compile Include="Conversations\ExactMatchConversationCanceller.cs" />
+    <Compile Include="Conversations\FixedSetPrompt.cs" />
     <Compile Include="Conversations\IConversable.cs" />
+    <Compile Include="Conversations\IConversationCanceller.cs" />
+    <Compile Include="Conversations\IConversationPrefix.cs" />
+    <Compile Include="Conversations\InactivityConversationCanceller.cs" />
     <Compile Include="Conversations\IPrompt.cs" />
+    <Compile Include="Conversations\ManuallyAbandonedConversationCanceller.cs" />
+    <Compile Include="Conversations\MessagePrompt.cs" />
+    <Compile Include="Conversations\NullConversationPrefix.cs" />
+    <Compile Include="Conversations\NumericPrompt.cs" />
+    <Compile Include="Conversations\PlayerNamePrompt.cs" />
+    <Compile Include="Conversations\PluginNameConversationPrefix.cs" />
+    <Compile Include="Conversations\RegexPrompt.cs" />
+    <Compile Include="Conversations\StringPrompt.cs" />
+    <Compile Include="Conversations\ValidatingPrompt.cs" />
     <Compile Include="Difficulty.cs" />
     <Compile Include="DyeColor.cs" />
     <Compile Include="Effect.cs" />
@@ -139,6 +174,7 @@
     <Compile Include="IBlockChangeDelegate.cs" />
     <Compile Include="IChunk.cs" />
     <Compile Include="IChunkSnapshot.cs" />
+    <Compile Include="Instrument.cs" />
     <Compile Include="Inventory\IAnvilInventory.cs" />
     <Compile Include="Inventory\IBeaconInventory.cs" />
     <Compile Include="Inventory\IBrewerInventory.cs" />
@@ -168,6 +204,7 @@
     <Compile Include="Inventory\Meta\ISkullMeta.cs" />
     <Compile Include="Inventory\ShapedRecipe.cs" />
     <Compile Include="Inventory\ShapelessRecipe.cs" />
+    <Compile Include="IWarning.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Maps\IMapCanvas.cs" />
     <Compile Include="Maps\IMapView.cs" />
@@ -180,7 +217,12 @@
     <Compile Include="Material.cs" />
     <Compile Include="Materials\MaterialData.cs" />
     <Compile Include="Metadata\IMetadatable.cs" />
+    <Compile Include="Metadata\IMetadataStore.cs" />
     <Compile Include="Metadata\IMetadataValue.cs" />
+    <Compile Include="Metadata\LazyMetadataValue.cs" />
+    <Compile Include="Metadata\MetadataConversionException.cs" />
+    <Compile Include="Metadata\MetadataEvaluationException.cs" />
+    <Compile Include="Metadata\MetadataStoreBase.cs" />
     <Compile Include="Metadata\MetadataValueAdapter.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="OfflinePlayer.cs" />
@@ -229,6 +271,13 @@
     <Compile Include="Scheduler\IBukkitTask.cs" />
     <Compile Include="Scheduler\IBukkitWorker.cs" />
     <Compile Include="IServer.cs" />
+    <Compile Include="Scoreboard\DisplaySlot.cs" />
+    <Compile Include="Scoreboard\IObjective.cs" />
+    <Compile Include="Scoreboard\IScore.cs" />
+    <Compile Include="Scoreboard\IScoreboard.cs" />
+    <Compile Include="Scoreboard\IScoreboardManager.cs" />
+    <Compile Include="Scoreboard\ITeam.cs" />
+    <Compile Include="SkullType.cs" />
     <Compile Include="TreeType.cs" />
     <Compile Include="Util\BlockIterator.cs" />
     <Compile Include="Util\BlockVector.cs" />
@@ -238,6 +287,8 @@
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\Vector.cs" />
     <Compile Include="IWorld.cs" />
+    <Compile Include="WorldCreator.cs" />
+    <Compile Include="WorldType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugin\Exceptions\" />
