@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using BukkitNET.Block;
 using BukkitNET.Potions;
 
 namespace BukkitNET.Entities
@@ -16,11 +17,11 @@ namespace BukkitNET.Entities
 
         Location GetEyeLocation();
 
-        List<Block> GetLineOfSight(HashSet<byte> transparent, int maxDistance);
+        List<IBlock> GetLineOfSight(HashSet<byte> transparent, int maxDistance);
 
-        Block GetTargetBlock(HashSet<byte> transparent, int maxDistance);
+        IBlock GetTargetBlock(HashSet<byte> transparent, int maxDistance);
 
-        List<Block> GetLastTwoTargetBlocks(HashSet<byte> transparent, int maxDistance);
+        List<IBlock> GetLastTwoTargetBlocks(HashSet<byte> transparent, int maxDistance);
 
         T LaunchProjectile<T>(Type projectile);
 

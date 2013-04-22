@@ -6,7 +6,9 @@ using System.Text;
 using BukkitNET.Commands;
 using BukkitNET.Entities;
 using BukkitNET.Events.InventoryEvents;
+using BukkitNET.Help;
 using BukkitNET.Inventory;
+using BukkitNET.Maps;
 using BukkitNET.Plugin;
 using BukkitNET.Plugin.Messaging;
 using BukkitNET.Scheduler;
@@ -19,9 +21,9 @@ namespace BukkitNET
         public const string BROADCAST_CHANNEL_ADMINISTRATIVE = "bukkit.broadcast.admin";
         public const string BROADCAST_CHANNEL_USERS = "bukkit.broadcast.user";
 
-        private static Server server;
+        private static IServer server;
 
-        public static Server Server
+        public static IServer Server
         {
             get
             {
@@ -35,7 +37,7 @@ namespace BukkitNET
                 }
 
                 Bukkit.server = server;
-                server.Logger.Info("This server is running " + Bukkit.Name + " version " + Bukkit.Version + " (Implementing API version " + Server.BukkitVersion + ")");
+                server.GetLogger().Info("This server is running " + Bukkit.Name + " version " + Bukkit.Version + " (Implementing API version " + Server.BukkitVersion + ")");
             }
         }
 
@@ -371,7 +373,7 @@ namespace BukkitNET
             }
         }
 
-        public static HelpMap HelpMap
+        public static IHelpMap HelpMap
         {
             get
             {
@@ -443,7 +445,7 @@ namespace BukkitNET
             }
         }
 
-        public static ItemFactory ItemFactory
+        public static IItemFactory ItemFactory
         {
             get
             {
@@ -501,12 +503,12 @@ namespace BukkitNET
             return server.GetWorld(uid);
         }
 
-        public static MapView GetMap(short id)
+        public static IMapView GetMap(short id)
         {
             return server.GetMap(id);
         }
 
-        public static MapView CreateMap(IWorld world)
+        public static IMapView CreateMap(IWorld world)
         {
             return server.CreateMap(world);
         }
@@ -526,7 +528,7 @@ namespace BukkitNET
             server.SavePlayers();
         }
 
-        public static bool DispatchCommand(CommandSender sender, string commandLine)
+        public static bool DispatchCommand(ICommandSender sender, string commandLine)
         {
             return server.DispatchCommand(sender, commandLine);
         }
@@ -536,17 +538,17 @@ namespace BukkitNET
             server.ConfigureDbConfig(config);
         }
 
-        public static bool AddRecipe(Recipe recipe)
+        public static bool AddRecipe(IRecipe recipe)
         {
             return server.AddRecipe(recipe);
         }
 
-        public static List<Recipe> getRecipesFor(ItemStack result)
+        public static List<IRecipe> GetRecipesFor(ItemStack result)
         {
             return server.GetRecipesFor(result);
         }
 
-        public static IEnumerable<Recipe> GetRecipeNumerable()
+        public static IEnumerable<IRecipe> GetRecipeNumerable()
         {
             return server.RecipeNumerable();
         }

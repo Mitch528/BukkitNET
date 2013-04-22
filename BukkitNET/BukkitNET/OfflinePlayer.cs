@@ -6,7 +6,7 @@ using BukkitNET.Configuration.Serialization;
 
 namespace BukkitNET
 {
-    public interface OfflinePlayer : ServerOperator, AnimalTamer, ConfigurationSerializable 
+    public interface OfflinePlayer : ServerOperator, AnimalTamer, IConfigurationSerializable 
     {
 
         bool IsOnline();

@@ -13,7 +13,7 @@ namespace BukkitNET.Commands
         
         void SendMessage(string[] messages);
 
-        Server GetServer();
+        IServer GetServer();
 
         string GetName();
 

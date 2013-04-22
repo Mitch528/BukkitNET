@@ -6,14 +6,16 @@ using System.Text;
 using BukkitNET.Commands;
 using BukkitNET.Entities;
 using BukkitNET.Events.InventoryEvents;
+using BukkitNET.Help;
 using BukkitNET.Inventory;
+using BukkitNET.Maps;
 using BukkitNET.Plugin;
 using BukkitNET.Plugin.Messaging;
 using BukkitNET.Scheduler;
 
 namespace BukkitNET
 {
-    public interface Server : IPluginMessageRecipient
+    public interface IServer : IPluginMessageRecipient
     {
 
         string GetName();
@@ -88,9 +90,9 @@ namespace BukkitNET
 
         IWorld GetWorld(Guid uid);
 
-        MapView GetMap(short id);
+        IMapView GetMap(short id);
 
-        MapView CreateMap(IWorld world);
+        IMapView CreateMap(IWorld world);
 
         void Reload();
 
@@ -104,11 +106,11 @@ namespace BukkitNET
 
         void ConfigureDbConfig(ServerConfig config);
 
-        bool AddRecipe(Recipe recipe);
+        bool AddRecipe(IRecipe recipe);
 
-        List<Recipe> GetRecipesFor(ItemStack result);
+        List<IRecipe> GetRecipesFor(ItemStack result);
 
-        IEnumerable<Recipe> RecipeNumerable();
+        IEnumerable<IRecipe> RecipeNumerable();
 
         void ClearRecipes();
 
@@ -156,7 +158,7 @@ namespace BukkitNET
 
         IMessenger GetMessenger();
 
-        HelpMap GetHelpMap();
+        IHelpMap GetHelpMap();
 
         IInventory CreateInventory(IInventoryHolder owner, InventoryType type);
 
@@ -180,7 +182,7 @@ namespace BukkitNET
 
         WarningState GetWarningState();
 
-        ItemFactory GetItemFactory();
+        IItemFactory GetItemFactory();
 
         ScoreboardManager GetScoreboardManager();
 

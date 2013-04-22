@@ -8,6 +8,8 @@ namespace BukkitNET.Plugin
     public class PluginInfo
     {
 
+        public string FullName { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BukkitNET.Block;
 using BukkitNET.Extensions;
 using BukkitNET.Util;
 
@@ -65,7 +66,7 @@ namespace BukkitNET
             }
         }
 
-        public Chunck Chunk
+        public IChunk Chunk
         {
             get
             {
@@ -73,7 +74,7 @@ namespace BukkitNET
             }
         }
 
-        public Block Block
+        public IBlock Block
         {
             get
             {

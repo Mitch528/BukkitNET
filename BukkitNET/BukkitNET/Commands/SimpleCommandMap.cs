@@ -16,7 +16,7 @@ namespace BukkitNET.Commands
         private static Regex PATTERN_ON_SPACE = new Regex(" ", RegexOptions.Compiled);
         protected Dictionary<string, Command> knownCommands = new Dictionary<string, Command>();
         protected HashSet<string> aliases = new HashSet<string>();
-        private Server server;
+        private IServer server;
         protected static HashSet<VanillaCommand> fallbackCommands = new HashSet<VanillaCommand>();
 
         public HashSet<VanillaCommand> FallbackCommands
@@ -65,13 +65,13 @@ namespace BukkitNET.Commands
 
         }
 
-        public SimpleCommandMap(Server server)
+        public SimpleCommandMap(IServer server)
         {
             this.server = server;
             SetDefaultCommands(server);
         }
 
-        private void SetDefaultCommands(Server server)
+        private void SetDefaultCommands(IServer server)
         {
             Register("bukkit", new SaveCommand());
             Register("bukkit", new SaveOnCommand());

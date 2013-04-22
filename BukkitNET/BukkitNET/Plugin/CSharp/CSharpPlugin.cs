@@ -17,9 +17,9 @@ namespace BukkitNET.Plugin.CSharp
         private bool isEnabled = false;
         private bool initialized = false;
         private IPluginLoader loader = null;
-        private Server server = null;
+        private IServer server = null;
         private FileInfo file = null;
-        private string description = null;
+        private PluginInfo pinfo = null;
         private FileInfo dataFolder = null;
         private bool naggable = true;
         private FileConfiguration newConfig = null;
@@ -44,7 +44,7 @@ namespace BukkitNET.Plugin.CSharp
             }
         }
 
-        public Server Server
+        public IServer Server
         {
             get
             {
@@ -57,14 +57,6 @@ namespace BukkitNET.Plugin.CSharp
             get
             {
                 return file;
-            }
-        }
-
-        public string Description
-        {
-            get
-            {
-                return description;
             }
         }
 
@@ -128,8 +120,6 @@ namespace BukkitNET.Plugin.CSharp
                 throw new ArgumentException("ResourcePath cannot be null or empty");
             }
 
-            resourcePath = resourcePath.Replace('\\', '/');
-
             FileStream fs = GetResource(resourcePath);
 
             if (fs == null)
@@ -188,7 +178,7 @@ namespace BukkitNET.Plugin.CSharp
             }
         }
 
-        protected void Initialize(IPluginLoader loader, string description, FileInfo dataFolder, FileInfo file, Assembly assm)
+        protected void Initialize(IPluginLoader loader, FileInfo dataFolder, FileInfo file, Assembly assm)
         {
 
             if (!initialized)
@@ -198,7 +188,6 @@ namespace BukkitNET.Plugin.CSharp
                 this.loader = loader;
                 this.server = server;
                 this.file = file;
-                this.description = description;
                 this.dataFolder = dataFolder;
                 this.assembly = assm;
                 this.configFile = new FileInfo(Path.Combine(dataFolder.FullName, "config.yml"));
@@ -265,7 +254,7 @@ namespace BukkitNET.Plugin.CSharp
 
         public override string ToString()
         {
-            return description.FullName;
+            return pinfo.FullName;
         }
 
     }

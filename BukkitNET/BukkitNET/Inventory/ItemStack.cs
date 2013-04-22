@@ -4,18 +4,20 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using BukkitNET.Configuration.Serialization;
+using BukkitNET.Enchantments;
+using BukkitNET.Inventory.Meta;
 using BukkitNET.Materials;
 
 namespace BukkitNET.Inventory
 {
-    public class ItemStack : ConfigurationSerializable
+    public class ItemStack : IConfigurationSerializable
     {
 
         private int type = 0;
         private int amount = 0;
         private MaterialData data = null;
         private short durability = 0;
-        private ItemMeta meta;
+        private IItemMeta meta;
 
         public int Amount
         {
@@ -37,6 +39,14 @@ namespace BukkitNET.Inventory
             }
         }
 
+        public bool HasItemMeta
+        {
+            get
+            {
+                return !Bukkit.ItemFactory.Equals(meta, null);
+            }
+        }
+
         public MaterialData Data
         {
             get
@@ -44,7 +54,7 @@ namespace BukkitNET.Inventory
                 Material mat = GetMaterialType();
                 if (data == null && mat != null && mat.GetData() != null)
                 {
-                    data = mat.GetNewData((byte)this.GetDurability());
+                    data = mat.GetNewData((byte)durability);
                 }
 
                 return data;
@@ -60,7 +70,7 @@ namespace BukkitNET.Inventory
                 }
                 else
                 {
-                    if ((data.GetType().Name == mat.GetData()) || (data.GetType() == typeof(MaterialData)))
+                    if ((data.ItemType.GetData() == mat.GetData()) || (data.GetType() == typeof(MaterialData)))
                     {
                         this.data = data;
                     }
@@ -98,11 +108,11 @@ namespace BukkitNET.Inventory
             }
         }
 
-        public ItemMeta ItemMeta
+        public IItemMeta ItemMeta
         {
             get
             {
-                return this.meta == null ? Bukkit.getItemFactory().GetItemMeta(GetType0()) : meta;
+                return this.meta == null ? Bukkit.ItemFactory.GetItemMeta(GetType0()) : meta;
             }
             set
             {
@@ -184,16 +194,16 @@ namespace BukkitNET.Inventory
             this.type = type;
             if (this.meta != null)
             {
-                this.meta = Bukkit.getItemFactory().asMetaFor(meta, GetType0());
+                this.meta = Bukkit.ItemFactory.asMetaFor(meta, GetType0());
             }
             CreateData((byte)0);
         }
 
         private void CreateData(byte data)
         {
-            Material mat = Material.GetMaterial(type);
+            Material mat = MaterialHelper.GetMaterial(type);
 
-            if (mat == null)
+            if (mat == default(Material))
             {
                 this.data = new MaterialData(type, data);
             }
@@ -205,12 +215,12 @@ namespace BukkitNET.Inventory
 
         public override string ToString()
         {
-            StringBuilder toString = new StringBuilder("ItemStack{").Append(typeof(ItemStack).Name).Append(" x ").append(amount);
+            StringBuilder toString = new StringBuilder("ItemStack{").Append(typeof(ItemStack).Name).Append(" x ").Append(amount);
             if (HasItemMeta)
             {
-                toString.Append(", ").Append(GetItemMeta());
+                toString.Append(", ").Append(ItemMeta);
             }
-            return toString.Append('}').toString();
+            return toString.Append('}').ToString();
         }
 
         public override bool Equals(object obj)
@@ -238,7 +248,7 @@ namespace BukkitNET.Inventory
             {
                 return true;
             }
-            return type == stack.Type && durability == stack.Durability && HasItemMeta == stack.HasItemMeta && (HasItemMeta ? Bukkit.getItemFactory().equals(ItemMeta, stack.ItemMeta) : true);
+            return type == stack.Type && durability == stack.Durability && HasItemMeta == stack.HasItemMeta && (HasItemMeta ? Bukkit.ItemFactory.Equals(ItemMeta, stack.ItemMeta) : true);
         }
 
         public ItemStack Clone()
@@ -279,16 +289,16 @@ namespace BukkitNET.Inventory
             Debug.Assert(enchantments != null, "Enchantments cannot be null");
             foreach (var entry in enchantments)
             {
-                AddEnchantments(entry.Key, entry.Value);
+                AddEnchantment(entry.Key, entry.Value);
             }
         }
 
         public void AddEnchantment(Enchantment ench, int level)
         {
             Debug.Assert(ench != null, "Enchantment cannot be null");
-            if ((level < ench.StartLevel) || (level > ench.MaxLevel))
+            if ((level < ench.GetStartLevel()) || (level > ench.GetMaxLevel()))
             {
-                throw new ArgumentException("Enchantment level is either too low or too high (given " + level + ", bounds are " + ench.StartLevel + " to " + ench.MaxLevel);
+                throw new ArgumentException("Enchantment level is either too low or too high (given " + level + ", bounds are " + ench.GetStartLevel() + " to " + ench.GetMaxLevel());
             }
             else if (!ench.CanEnchantItem(this))
             {
@@ -308,7 +318,7 @@ namespace BukkitNET.Inventory
 
         public void AddUnsafeEnchantment(Enchantment ench, int level)
         {
-            (meta == null ? meta = Bukkit.getItemFactory().getItemMeta(GetType0()) : meta).addEnchant(ench, level, true);
+            (meta == null ? meta = Bukkit.ItemFactory.GetItemMeta(GetType0()) : meta).AddEnchant(ench, level, true);
         }
 
         public int RemoveEnchantment(Enchantment ench)
@@ -326,7 +336,7 @@ namespace BukkitNET.Inventory
         {
             Dictionary<string, object> result = new Dictionary<string, object>();
 
-            result.Add("type", GetMaterialType().Name);
+            result.Add("type", GetMaterialType().GetName());
 
             if (durability != 0)
             {
@@ -338,7 +348,7 @@ namespace BukkitNET.Inventory
                 result.Add("amount", amount);
             }
 
-            if (!Bukkit.getItemFactory().equals(meta, null))
+            if (!Bukkit.ItemFactory.Equals(meta, null))
             {
                 result.Add("meta", meta);
             }
@@ -348,7 +358,7 @@ namespace BukkitNET.Inventory
 
         public static ItemStack Deserialize(Dictionary<string, object> args)
         {
-            Material type = Material.getMaterial((String)args["type"]);
+            Material type = MaterialHelper.GetMaterial((string)args["type"]);
             short damage = 0;
             int amount = 1;
 
@@ -375,25 +385,51 @@ namespace BukkitNET.Inventory
 
                     foreach (var entry in map)
                     {
-                        Enchantment enchantment = Enchantment.getByName(entry.Key);
+                        Enchantment enchantment = Enchantment.GetByName(entry.Key);
 
-                        if ((enchantment != null) && (entry.getValue() is int))
+                        if (enchantment != null)
                         {
-                            result.AddUnsafeEnchantment(enchantment, (int)entry.Value);
+                            result.AddUnsafeEnchantment(enchantment, entry.Value);
                         }
                     }
                 }
             }
             else if (args.ContainsKey("meta"))
-            { // We cannot and will not have meta when enchantments (pre-ItemMeta) exist
+            {
                 object raw = args["meta"];
-                if (raw is ItemMeta)
+                var itemMeta = raw as IItemMeta;
+                if (itemMeta != null)
                 {
-                    result.ItemMeta = (ItemMeta)raw;
+                    result.ItemMeta = itemMeta;
                 }
             }
 
             return result;
+        }
+
+        public bool SetItemMeta(IItemMeta itemMeta)
+        {
+            return SetItemMeta0(itemMeta, GetType0());
+        }
+
+        private bool SetItemMeta0(IItemMeta itemMeta, Material material)
+        {
+            if (itemMeta == null)
+            {
+                this.meta = null;
+                return true;
+            }
+            if (!Bukkit.ItemFactory.IsApplicable(itemMeta, material))
+            {
+                return false;
+            }
+            this.meta = Bukkit.ItemFactory.AsMetaFor(itemMeta, material);
+            if (this.meta == itemMeta)
+            {
+                this.meta = itemMeta.Clone();
+            }
+
+            return true;
         }
 
     }

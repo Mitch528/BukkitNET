@@ -13,7 +13,7 @@ namespace BukkitNET.Plugin
 
         DirectoryInfo GetDataFolder();
 
-        PluginInfo PluginDescription();
+        PluginInfo GetPluginInfo();
 
         FileConfiguration GetConfig();
 
@@ -23,7 +23,7 @@ namespace BukkitNET.Plugin
 
         ChunkGenerator GetDefaultWorldGenerator(string worldName, string id);
 
-        Server GetServer();
+        IServer GetServer();
 
         void OnEnable();
 
@@ -44,8 +44,6 @@ namespace BukkitNET.Plugin
         bool IsNaggable();
 
         void SetNaggable(bool canNag);
-
-        //database here
 
         Logger GetLogger();
 

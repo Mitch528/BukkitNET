@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BukkitNET.Entities
 {
-    public interface ILightningStrike : Weather
+    public interface ILightningStrike : IWeather
     {
 
         bool IsEffect();

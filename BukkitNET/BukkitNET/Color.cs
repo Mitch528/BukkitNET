@@ -6,7 +6,7 @@ using BukkitNET.Configuration.Serialization;
 
 namespace BukkitNET
 {
-    public class Color : ConfigurationSerializable
+    public class Color : IConfigurationSerializable
     {
 
         private static readonly int BIT_MASK = 0xff;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BukkitNET.Configuration.Serialization
 {
-    public interface ConfigurationSerializable
+    public interface IConfigurationSerializable
     {
 
         Dictionary<string, object> Serialize();

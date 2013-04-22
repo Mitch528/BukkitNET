@@ -133,20 +133,19 @@ namespace BukkitNET
 
     }
 
-    public static class MaterialExtensions
+    public static class MaterialHelper
     {
 
         private static Material[] byId = new Material[383];
         private static Dictionary<string, Material> BY_NAME = new Dictionary<string, Material>();
 
-        static MaterialExtensions()
+        static MaterialHelper()
         {
-
 
             foreach (Material material in Enum.GetValues(typeof(Material)))
             {
 
-                var mat = GetAttribute(material);
+                var mat = material.GetAttribute<MaterialInfoAttribute>();
                 int id = mat.Id;
 
                 if (byId.Length > id)
@@ -169,6 +168,28 @@ namespace BukkitNET
 
         }
 
+        public static Material GetMaterial(int id)
+        {
+            if (byId.Length > id && id >= 0)
+            {
+                return byId[id];
+            }
+            else
+            {
+                return default(Material);
+            }
+        }
+
+        public static Material GetMaterial(string name)
+        {
+            return BY_NAME[name];
+        }
+
+    }
+
+    public static class MaterialExtensions
+    {
+
         public static Type GetData(this Material material)
         {
             return GetAttribute(material).ConstructorInfo.DeclaringType;
@@ -188,6 +209,16 @@ namespace BukkitNET
         private static MaterialInfoAttribute GetAttribute(Material material)
         {
             return material.GetAttribute<MaterialInfoAttribute>();
+        }
+
+        public static int GetId(this Material material)
+        {
+            return GetAttribute(material).Id;
+        }
+
+        public static string GetName(this Material material)
+        {
+            return Enum.GetName(typeof(Material), material);
         }
 
         public static bool IsBlock(this Material material)
@@ -289,32 +320,32 @@ namespace BukkitNET
             }
             switch (material)
             {
-                case Material.STONE:
-                case Material.GRASS:
-                case Material.DIRT:
-                case Material.COBBLESTONE:
+                case Material.Stone:
+                case Material.Grass:
+                case Material.Dirt:
+                case Material.CobbleStone:
                 case Material.Wood:
-                case Material.BEDROCK:
-                case Material.SAND:
-                case Material.GRAVEL:
-                case Material.GOLD_ORE:
-                case Material.IRON_ORE:
-                case Material.COAL_ORE:
-                case Material.LOG:
-                case Material.LEAVES:
-                case Material.SPONGE:
-                case Material.GLASS:
-                case Material.LAPIS_ORE:
-                case Material.LAPIS_BLOCK:
-                case Material.DISPENSER:
-                case Material.SANDSTONE:
-                case Material.NOTE_BLOCK:
-                case Material.BED_BLOCK:
-                case Material.PISTON_STICKY_BASE:
-                case Material.PISTON_BASE:
-                case Material.PISTON_EXTENSION:
-                case Material.WOOL:
-                case Material.PISTON_MOVING_PIECE:
+                case Material.Bedrock:
+                case Material.Sand:
+                case Material.Gravel:
+                case Material.GoldOre:
+                case Material.IronOre:
+                case Material.CoalOre:
+                case Material.Log:
+                case Material.Leaves:
+                case Material.Sponge:
+                case Material.Glass:
+                case Material.LapisOre:
+                case Material.LapisBlock:
+                case Material.Dispenser:
+                case Material.Sandstone:
+                case Material.NoteBlock:
+                case Material.BedBlock:
+                case Material.PistonStickyBase:
+                case Material.PistonBase:
+                case Material.PistonExtension:
+                case Material.Wool:
+                case Material.PistonMovingPiece:
                 case Material.GOLD_BLOCK:
                 case Material.IRON_BLOCK:
                 case Material.DOUBLE_STEP:

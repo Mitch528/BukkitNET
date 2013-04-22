@@ -8,7 +8,7 @@ using BukkitNET.Entities;
 
 namespace BukkitNET.Potions
 {
-    public class PotionEffect : ConfigurationSerializable
+    public class PotionEffect : IConfigurationSerializable
     {
 
         private static string AMPLIFIER = "amplifier";

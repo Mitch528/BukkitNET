@@ -12,35 +12,30 @@ namespace BukkitNET.Plugin
     {
 
         public abstract DirectoryInfo GetDataFolder();
-        public abstract PluginInfo PluginDescription();
+        public abstract PluginInfo GetPluginInfo();
         public abstract FileConfiguration GetConfig();
         public abstract FileStream GetResource(string filename);
+        public abstract IPluginLoader GetPluginLoader();
+        public abstract ChunkGenerator GetDefaultWorldGenerator(string worldName, string id);
+        public abstract IServer GetServer();
         public abstract void OnEnable();
         public abstract void OnDisable();
         public abstract void SaveConfig();
         public abstract void SaveDefaultConfig();
         public abstract void SaveResource(string resourcePath, bool replace);
         public abstract void ReloadConfig();
-        public abstract IPluginLoader GetPluginLoader();
-        public abstract Server GetServer();
         public abstract bool IsEnabled();
         public abstract void OnLoad();
         public abstract bool IsNaggable();
         public abstract void SetNaggable(bool canNag);
-        public abstract ChunkGenerator GetDefaultWorldGenerator(string worldName, string id);
         public abstract Logger GetLogger();
-
-        public string GetName()
-        {
-            return PluginDescription().Name;
-        }
 
         public override int GetHashCode()
         {
             return GetName().GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(Object obj)
         {
             if (this == obj)
             {
@@ -57,5 +52,9 @@ namespace BukkitNET.Plugin
             return GetName().Equals(((IPlugin)obj).GetName());
         }
 
+        public string GetName()
+        {
+            return GetPluginInfo().Name;
+        }
     }
 }

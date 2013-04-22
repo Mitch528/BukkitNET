@@ -48,7 +48,7 @@ namespace BukkitNET.Entities
 
         bool IsValid();
 
-        Server GetServer();
+        IServer GetServer();
 
         IEntity GetPassenger();
 

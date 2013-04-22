@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace BukkitNET.Plugin
     public class SimplePluginManager : IPluginManager
     {
 
-        private Server server;
+        private IServer server;
         private List<IPlugin> plugins = new List<IPlugin>();
-        private Dictionary<String, IPlugin> lookupNames = new Dictionary<String, Plugin>();
+        private Dictionary<string, IPlugin> lookupNames = new Dictionary<string, IPlugin>();
         private static FileInfo updateDirectory = null;
         private SimpleCommandMap commandMap;
         private Dictionary<string, Permission> permissions = new Dictionary<string, Permission>();
@@ -27,34 +28,18 @@ namespace BukkitNET.Plugin
         private Dictionary<bool, Dictionary<WeakReference, WeakReference>> defSubs = new Dictionary<bool, Dictionary<WeakReference, WeakReference>>();
         private bool useTimings = false;
 
-        private static AppDomain pluginAppDomain = AppDomain.CreateDomain("BukkitNETPlugins");
+        private List<IPluginLoader> loaders;
 
-        private static Type proxyType = typeof(PluginProxy);
-        private static PluginProxy _proxy = (PluginProxy)pluginAppDomain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName, proxyType.FullName);
-
-        public static PluginProxy PluginProxy
-        {
-            get
-            {
-                return _proxy;
-            }
-        }
-
-        public static AppDomain PluginAppDomain
-        {
-            get
-            {
-                return pluginAppDomain;
-            }
-        }
-
-        public SimplePluginManager(Server instance, SimpleCommandMap commandMap)
+        public SimplePluginManager(IServer instance, SimpleCommandMap commandMap)
         {
             server = instance;
             this.commandMap = commandMap;
 
             defaultPerms.Add(true, new HashSet<Permission>());
             defaultPerms.Add(false, new HashSet<Permission>());
+
+            loaders = new List<IPluginLoader>();
+
         }
 
         public void RegisterInterface(Type loader)
@@ -63,7 +48,7 @@ namespace BukkitNET.Plugin
 
             if (typeof(IPluginLoader).IsAssignableFrom(loader))
             {
-                instance = (IPluginLoader)Activator.CreateInstance(loader, server);
+                loaders.Add((IPluginLoader)Activator.CreateInstance(loader, server));
             }
             else
             {
@@ -105,7 +90,7 @@ namespace BukkitNET.Plugin
 
             var assm = _proxy.LoadPlugin(file.FullName);
             var types = assm.GetTypes();
-            var plugs = types.Where(p => p.IsAssignableFrom(typeof(IPlugin)));
+            var plugs = types.Where(p => typeof(IPlugin).IsAssignableFrom(p));
 
             if (plugs.Count() > 1)
                 throw new Exception("You cannot inherit IPlugin twice!");
@@ -115,7 +100,11 @@ namespace BukkitNET.Plugin
             if (type == null)
                 throw new NullReferenceException();
 
-            plugins.Add((IPlugin)Activator.CreateInstance(type));
+            var plugin = (IPlugin)Activator.CreateInstance(type);
+
+            plugins.Add(plugin);
+
+            return plugin;
 
         }
 
@@ -173,9 +162,9 @@ namespace BukkitNET.Plugin
                 throw new Exception("Plugin attempted to register " + listener + " while not enabled");
             }
 
-            foreach (var entry in plugin.GetPluginLoader().CreateRegisteredListeners(listener, plugin))
+            foreach (var entry in plugin.GetPluginLoader().CreateRegisteredListener(listener, plugin))
             {
-                GetEventListeners(GetRegistrationClass(entry.Key)).RegisterAll(entry.Value);
+                GetEventListeners(GetRegistrationClass(entry.Key)).RegisterAll(new Collection<RegisteredListener>(entry.Value.ToList()));
             }
         }
 
@@ -215,7 +204,7 @@ namespace BukkitNET.Plugin
             }
             catch (Exception e)
             {
-                throw new IllegalPluginAccessException(e.toString());
+                throw new IllegalPluginAccessException(e.Message);
             }
         }
 
@@ -224,16 +213,16 @@ namespace BukkitNET.Plugin
 
             if (!plugin.IsEnabled())
             {
-                List<Command> pluginCommands = PluginCommandJSONParser.parse(plugin);
+                List<Command> pluginCommands = PluginCommandJSONParser.Parse(plugin);
 
-                if (!pluginCommands.IsEmpty())
+                if (pluginCommands.Any())
                 {
                     commandMap.RegisterAll(plugin.PluginDescription.Name, pluginCommands);
                 }
 
                 try
                 {
-                    plugin.GetPluginLoader().enablePlugin(plugin);
+                    plugin.GetPluginLoader().EnablePlugin(plugin);
                 }
                 catch (Exception ex)
                 {
@@ -372,7 +361,6 @@ namespace BukkitNET.Plugin
             plugins.Clear();
             lookupNames.Clear();
             HandlerList.UnregisterAll();
-            fileAssociations.Clear();
             permissions.Clear();
             defaultPerms[true].Clear();
             defaultPerms[false].Clear();
@@ -395,7 +383,7 @@ namespace BukkitNET.Plugin
                 }
                 else
                 {
-                    throw new Exception("Unable to find handler list for event " + clazz.getName());
+                    throw new Exception("Unable to find handler list for event " + type.Name);
                 }
             }
         }

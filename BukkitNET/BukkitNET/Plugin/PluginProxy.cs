@@ -1,21 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace BukkitNET.Plugin
 {
-    public class PluginProxy : MarshalByRefObject
+    internal class PluginProxy : MarshalByRefObject
     {
 
-        public Assembly LoadPlugin(string filename)
+        public Assembly LoadAssemblyReflection(string assemblyPath)
         {
             try
             {
-                return Assembly.LoadFile(filename);
+                return Assembly.ReflectionOnlyLoadFrom(assemblyPath);
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
+        }
+
+        public Assembly LoadAssembly(string assemblyPath)
+        {
+            try
+            {
+                return Assembly.LoadFrom(assemblyPath);
+            }
+            catch (FileNotFoundException)
             {
                 return null;
             }

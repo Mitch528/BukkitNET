@@ -11,7 +11,7 @@ namespace BukkitNET.Plugin
 
         IPlugin LoadPlugin(FileInfo file);
 
-        PluginInfo GetPluginDescription(FileInfo file);
+        PluginInfo GetPluginInfo(IPlugin plugin);
 
         Dictionary<Type, HashSet<RegisteredListener>> CreateRegisteredListener(IListener listener, IPlugin plugin);
 

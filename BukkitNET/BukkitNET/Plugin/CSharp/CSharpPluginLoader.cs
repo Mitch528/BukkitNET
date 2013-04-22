@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using BukkitNET.Attributes;
@@ -17,7 +18,60 @@ namespace BukkitNET.Plugin.CSharp
         private bool extended;
         private bool warn;
 
+        private static AppDomain pluginAppDomain;
+
+        private static Type proxyType = typeof(PluginProxy);
+        private static PluginProxy _proxy;
+
         private Regex _regex = new Regex("\\.dll", RegexOptions.Compiled);
+
+
+        static CSharpPluginLoader()
+        {
+
+            Evidence evidence = new Evidence(Assembly.GetExecutingAssembly().Evidence);
+            AppDomainSetup setup = AppDomain.CurrentDomain.SetupInformation;
+
+            pluginAppDomain = AppDomain.CreateDomain("BukkitNETPlugins", evidence, setup);
+
+            _proxy = (PluginProxy)pluginAppDomain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName, proxyType.FullName);
+
+            AppDomain.CurrentDomain.AssemblyResolve += (s, e) =>
+            {
+
+                string asmBase = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "plugins");
+
+                Assembly assm = null;
+                string strTempAssmbPath = string.Empty;
+
+                Assembly objExecutingAssemblies = Assembly.GetExecutingAssembly();
+                AssemblyName[] arrReferencedAssmbNames = objExecutingAssemblies.GetReferencedAssemblies();
+
+                AssemblyName myAssemblyName = Array.Find<AssemblyName>(arrReferencedAssmbNames, a => a.Name == e.Name);
+
+                if (myAssemblyName != null)
+                {
+                    assm = Assembly.LoadFrom(myAssemblyName.CodeBase);
+                }
+                else
+                {
+                    strTempAssmbPath = Path.Combine(asmBase, e.Name.Substring(0, e.Name.IndexOf(",")) + ".dll");
+
+                    if (!string.IsNullOrEmpty(strTempAssmbPath))
+                    {
+                        if (File.Exists(strTempAssmbPath))
+                        {
+
+                            assm = Assembly.LoadFrom(strTempAssmbPath);
+                        }
+                    }
+                }
+
+                return assm;
+
+            };
+
+        }
 
         public CSharpPluginLoader()
         {
@@ -46,10 +100,10 @@ namespace BukkitNET.Plugin.CSharp
                 ));
             }
 
-            var assm = SimplePluginManager.PluginProxy.LoadPlugin(file.FullName);
+            var assm = _proxy.LoadAssembly(file.FullName);
 
             var types = assm.GetTypes();
-            var plugs = types.Where(p => p.IsAssignableFrom(typeof(IPlugin)));
+            var plugs = types.Where(p => typeof(IPlugin).IsAssignableFrom(p));
 
             int count = plugs.Count();
 
@@ -65,15 +119,15 @@ namespace BukkitNET.Plugin.CSharp
 
             var plugin = (CSharpPlugin)Activator.CreateInstance(type);
 
-            plugin.GetType().GetMethod("Initialize", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(plugin, new object[] { this, null, dataFolder, file, assm });
+            plugin.GetType().GetMethod("Initialize", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).Invoke(plugin, new object[] { this, dataFolder, file, assm });
 
             return plugin;
 
         }
 
-        public PluginInfo GetPluginDescription(FileInfo file)
+        public PluginInfo GetPluginInfo(IPlugin plugin)
         {
-            throw new NotImplementedException();
+            return plugin.GetPluginInfo();
         }
 
         public Dictionary<Type, HashSet<RegisteredListener>> CreateRegisteredListener(IListener listener, IPlugin plugin)
@@ -175,12 +229,7 @@ namespace BukkitNET.Plugin.CSharp
 
                 CSharpPlugin cPlugin = (CSharpPlugin)plugin;
 
-                string pluginName = jPlugin.PluginDescription.Name();
-
-                if (!loaders0.containsKey(pluginName))
-                {
-                    loaders0.put(pluginName, (PluginClassLoader)cPlugin.getClassLoader());
-                }
+                string pluginName = plugin.GetDescription().Name;
 
                 try
                 {
@@ -198,7 +247,7 @@ namespace BukkitNET.Plugin.CSharp
 
         public void DisablePlugin(IPlugin plugin)
         {
-            
+
             Debug.Assert(plugin is CSharpPlugin, "Plugin is not associated with this PluginLoader");
 
             if (plugin.IsEnabled())
@@ -216,28 +265,9 @@ namespace BukkitNET.Plugin.CSharp
                 }
                 catch (Exception ex)
                 {
-                    Bukkit.GetLogger().Log(Level.SEVERE, "Error occurred while disabling " + plugin.PluginDescription.FullName + " (Is it up to date?)", ex);
+                    Bukkit.GetLogger().Log(Level.SEVERE, "Error occurred while disabling " + plugin.GetDescription().FullName + " (Is it up to date?)", ex);
                 }
 
-                loaders0.remove(jPlugin.getDescription().getName());
-
-                if (cloader is PluginClassLoader)
-                {
-                    PluginClassLoader loader = (PluginClassLoader)cloader;
-                    HashSet<String> names = loader.extended ? loader.getClasses() : loader.getClasses0();
-
-                    foreach (String name in names)
-                    {
-                        if (extended)
-                        {
-                            RemoveClass(name);
-                        }
-                        else
-                        {
-                            RemoveClass0(name);
-                        }
-                    }
-                }
             }
         }
     }
