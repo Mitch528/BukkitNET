@@ -61,7 +61,7 @@ namespace BukkitNET
 
     }
 
-    public static class DyeColorExtensions
+    public static class DyeColorHelper
     {
 
         public static DyeColor GetByColor(Color color)
@@ -80,7 +80,7 @@ namespace BukkitNET
             return (from dc in dcs let c = dc.GetAttribute<DyeColorInfoAttribute>().FireworkColor where c.Equals(color) select dc).FirstOrDefault();
         }
 
-        public static DyeColor GetByDyeColor(this byte data)
+        public static DyeColor GetByDyeColor(byte data)
         {
 
             int i = data & 0xff;
@@ -90,7 +90,7 @@ namespace BukkitNET
             return (from dc in dcs let dd = dc.GetAttribute<DyeColorInfoAttribute>().DyeData & 0xff where i == dd select dc).FirstOrDefault();
         }
 
-        public static DyeColor GetByWoolData(this byte data)
+        public static DyeColor GetByWoolData(byte data)
         {
 
             int i = data & 0xff;
@@ -100,9 +100,34 @@ namespace BukkitNET
             return (from dc in dcs let dd = dc.GetAttribute<DyeColorInfoAttribute>().WoolData & 0xff where i == dd select dc).FirstOrDefault();
         }
 
+    }
+
+    public static class DyeColorExtensions
+    {
+
         public static Color GetColor(this DyeColor dyeColor)
         {
-            return dyeColor.GetAttribute<DyeColorInfoAttribute>().Color;
+            return GetAttribute(dyeColor).Color;
+        }
+
+        public static Color GetFireworkColor(this DyeColor dyeColor)
+        {
+            return GetAttribute(dyeColor).FireworkColor;
+        }
+
+        public static byte GetWoolData(this DyeColor dyeColor)
+        {
+            return GetAttribute(dyeColor).WoolData;
+        }
+
+        public static byte GetDyeData(this DyeColor dyeColor)
+        {
+            return GetAttribute(dyeColor).DyeData;
+        }
+
+        private static DyeColorInfoAttribute GetAttribute(DyeColor dyeColor)
+        {
+            return dyeColor.GetAttribute<DyeColorInfoAttribute>();
         }
 
     }

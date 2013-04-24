@@ -16,7 +16,7 @@ namespace BukkitNET.Conversations
 
         void AbandonConversation(Conversation conversation);
 
-        void AbandonConversation(Conversation conversation, ConversationAbandonedEvent details);
+        void AbandonConversation(Conversation conversation, ConversationAbandonedEventArgs details);
 
         void SendRawMessage(string message);
 

@@ -76,7 +76,7 @@ namespace BukkitNET.Attributes
         public MaterialInfoAttribute(int id, int stack, int durability, Type data)
         {
 
-            if (!data.IsAssignableFrom(typeof(MaterialData)))
+            if (!typeof(MaterialData).IsAssignableFrom(data))
             {
                 throw new ArgumentException("data must inherit MaterialData!");
             }

@@ -112,7 +112,7 @@ namespace BukkitNET.Entities
 
         [EntityTypeInfo("Blaze", typeof(IBlaze), 61)]
         Blaze,
-        
+
         [EntityTypeInfo("LavaSlime", typeof(IMagmaCube), 62)]
         MagmaCube,
 
@@ -221,6 +221,41 @@ namespace BukkitNET.Entities
 
             return EntityType.Unknown;
 
+        }
+
+    }
+
+    public static class EntityTypeExtensions
+    {
+
+        public static string GetName(this EntityType type)
+        {
+            return GetAttribute(type).Name;
+        }
+
+        public static Type GetEntityType(this EntityType type)
+        {
+            return GetAttribute(type).Type;
+        }
+
+        public static int GetEntityTypeId(this EntityType type)
+        {
+            return GetAttribute(type).TId;
+        }
+
+        public static bool IsIndependent(this EntityType type)
+        {
+            return GetAttribute(type).Independent;
+        }
+
+        public static bool IsLiving(this EntityType type)
+        {
+            return GetAttribute(type).Living;
+        }
+
+        private static EntityTypeInfoAttribute GetAttribute(EntityType type)
+        {
+            return type.GetAttribute<EntityTypeInfoAttribute>();
         }
 
     }
