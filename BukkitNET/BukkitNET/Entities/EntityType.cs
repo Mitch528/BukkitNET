@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using BukkitNET.Attributes;
+using BukkitNET.Entities.Minecart;
 using BukkitNET.Extensions;
 
 namespace BukkitNET.Entities
@@ -107,7 +108,7 @@ namespace BukkitNET.Entities
         [EntityTypeInfo("CaveSpider", typeof(ICaveSpider), 59)]
         CaveSpider,
 
-        [EntityTypeInfo("SilverFish", typeof(ISilverFish), 60)]
+        [EntityTypeInfo("SilverFish", typeof(ISilverfish), 60)]
         SilverFish,
 
         [EntityTypeInfo("Blaze", typeof(IBlaze), 61)]
@@ -149,7 +150,7 @@ namespace BukkitNET.Entities
         [EntityTypeInfo("MushroomCow", typeof(IMushroomCow), 96)]
         MushroomCow,
 
-        [EntityTypeInfo("SnowMan", typeof(ISnowMan), 97)]
+        [EntityTypeInfo("SnowMan", typeof(ISnowman), 97)]
         SnowMan,
 
         [EntityTypeInfo("Ozelot", typeof(IOcelot), 98)]
@@ -170,7 +171,7 @@ namespace BukkitNET.Entities
         [EntityTypeInfo(null, typeof(IEgg), -1, false)]
         Egg,
 
-        [EntityTypeInfo(null, typeof(IFishingHook), -1, false)]
+        [EntityTypeInfo(null, typeof(IFish), -1, false)]
         FishingHook,
 
         [EntityTypeInfo(null, typeof(ILightningStrike), -1, false)]
